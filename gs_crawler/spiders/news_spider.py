@@ -10,11 +10,13 @@ class NewsSpider(scrapy.Spider):
       
     def parse(self, response):
         data = []
-        
         for n in response.css('li.item-destaque'):
+            thumb = n.css('img.thumbnail::attr(src)').extract_first()
+            if(thumb):
+                thumb = thumb.replace('width=80&height=60','')
             data.append({
                 'a': 'https://www.campos.rj.gov.br/' + n.css('a.title-header::attr(href)').extract_first(),
-                'thumb': n.css('img.thumbnail::attr(src)').extract_first(),
+                'thumb': thumb,
                 'titulo': n.css('b::text').extract_first(),
                 'texto': n.css('p.data-contente-destaque::text').extract_first()
             })
