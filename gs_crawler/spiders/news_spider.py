@@ -18,7 +18,8 @@ class NewsSpider(scrapy.Spider):
                 'a': 'https://www.campos.rj.gov.br/' + n.css('a.title-header::attr(href)').extract_first(),
                 'thumb': thumb,
                 'titulo': n.css('b::text').extract_first(),
-                'texto': n.css('p.data-contente-destaque::text').extract_first()
+                'texto': n.css('p.data-contente-destaque::text').extract_first(),
+                'data': n.css('span.info::text').extract_first(),
             })
         return scrapy.Request('http://127.0.0.1:8000/postnoticias/', method='POST', body=json.dumps(data), headers={'Authorization': 'Basic ' + 'YWRtaW46YWRtaW5hZG1pbg==', 'Content-Type':'application/json'}, callback=self.post_cb)
                                                                                                                                     
